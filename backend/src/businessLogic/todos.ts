@@ -1,5 +1,4 @@
 import * as uuid from 'uuid'
-import * as AWS from 'aws-sdk'
 
 import { TodoItem } from '../models/TodoItem'
 import { TodoAccess } from '../dataLayer/todosAccess'
