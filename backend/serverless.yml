@@ -185,6 +185,8 @@ resources:
                 - GET
                 - POST
                 - PUT
+                - DELETE
+                - HEAD
               AllowedOrigins:
                 - "*"
 

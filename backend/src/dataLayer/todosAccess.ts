@@ -52,11 +52,12 @@ export class TodoAccess {
           userId,
           todoId
         },
-        UpdateExpression: "set #name = :n, dueDate = :due, done = :d",
+        UpdateExpression: "set #name = :n, dueDate = :due, done = :d, priority = :p",
         ExpressionAttributeValues: {
           ":n": updateTodoRequest.name,
           ":due": updateTodoRequest.dueDate,
-          ":d": updateTodoRequest.done
+          ":d": updateTodoRequest.done,
+          ":p": updateTodoRequest.priority
         },
         ExpressionAttributeNames:{
           // Attribute name is a reserved keyword so it cannot be used

@@ -49,7 +49,8 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
       const dueDate = this.calculateDueDate()
       const newTodo = await createTodo(this.props.auth.getIdToken(), {
         name: this.state.newTodoName,
-        dueDate
+        dueDate,
+        priority: 1
       })
       this.setState({
         todos: [...this.state.todos, newTodo],
@@ -77,7 +78,8 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
       await patchTodo(this.props.auth.getIdToken(), todo.todoId, {
         name: todo.name,
         dueDate: todo.dueDate,
-        done: !todo.done
+        done: !todo.done,
+        priority: todo.priority
       })
       this.setState({
         todos: update(this.state.todos, {
@@ -85,7 +87,31 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
         })
       })
     } catch {
-      alert('Todo deletion failed')
+      alert('Todo update failed')
+    }
+  }
+
+  onPriorityChanged = async (pos: number) => {
+    try {
+      const todo = this.state.todos[pos]
+
+      const element: any = document.getElementById("priority")
+      const priority = parseInt(element.options[element.selectedIndex].value)
+
+      await patchTodo(this.props.auth.getIdToken(), todo.todoId, {
+        name: todo.name,
+        dueDate: todo.dueDate,
+        done: todo.done,
+        priority: priority
+      })
+
+      this.setState({
+        todos: update(this.state.todos, {
+          [pos]: { priority: { $set: priority } }
+        })
+      })
+    } catch {
+      alert('Todo update failed')
     }
   }
 
@@ -168,8 +194,15 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
                   checked={todo.done}
                 />
               </Grid.Column>
-              <Grid.Column width={10} verticalAlign="middle">
+              <Grid.Column width={5} verticalAlign="middle">
                 {todo.name}
+              </Grid.Column>
+              <Grid.Column width={5} verticalAlreign="middle">
+                <select id = "priority" value={this.state.todos[pos].priority} onChange={() => this.onPriorityChanged(pos)} >
+                  <option value="0">Low</option>
+                  <option value="1">Medium</option>
+                  <option value="2">High</option>
+                </select>
               </Grid.Column>
               <Grid.Column width={3} floated="right">
                 {todo.dueDate}
