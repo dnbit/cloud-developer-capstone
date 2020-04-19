@@ -36,6 +36,12 @@ export class TodoAccess {
   
     async createTodo(todoItem: TodoItem): Promise<TodoItem> {
       logger.info(`Creating todoItem ${todoItem}`)
+
+      // Set default priority if not provided      
+      if(todoItem.priority == null) {
+        todoItem.priority = 1
+      }
+
       await this.docClient.put({
         TableName: this.todosTable,
         Item: todoItem
