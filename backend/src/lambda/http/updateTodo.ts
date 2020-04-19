@@ -14,7 +14,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
   const updateTodoRequest: UpdateTodoRequest = JSON.parse(event.body)
   const userId = getUserId(event)
 
-  logger.info(`updateTodo call received for user ${userId} and todoId ${todoId} with ${updateTodoRequest}`)
+  logger.info(`updateTodo call received for user ${userId} and todoId ${todoId} with ${JSON.stringify(updateTodoRequest)}`)
   const result = await updateTodo(todoId, updateTodoRequest, userId)
 
   return {

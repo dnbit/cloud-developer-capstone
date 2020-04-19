@@ -10,7 +10,7 @@ const logger = createLogger('auth')
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const newTodo: CreateTodoRequest = JSON.parse(event.body)
-  logger.info(`createTodo call received for ${newTodo}`)
+  logger.info(`createTodo call received for ${JSON.stringify(newTodo)}`)
 
   const newItem = await createTodo(newTodo, getUserId(event))
 

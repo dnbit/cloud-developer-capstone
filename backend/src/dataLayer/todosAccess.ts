@@ -43,7 +43,7 @@ export class TodoAccess {
     }
   
     async createTodo(todoItem: TodoItem): Promise<TodoItem> {
-      logger.info(`Creating todoItem ${todoItem}`)
+      logger.info(`Creating todoItem ${JSON.stringify(todoItem)}`)
 
       // Set default priority if not provided      
       if(todoItem.priority == null) {

@@ -19,6 +19,7 @@ export async function createTodo(createTodoRequest: CreateTodoRequest, userId: s
         userId: userId,
         createdAt: new Date().toISOString(),
         done: false,
+        priority: 1,
         ...createTodoRequest
     })
 }
