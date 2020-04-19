@@ -95,7 +95,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
     try {
       const todo = this.state.todos[pos]
 
-      const element: any = document.getElementById("priority")
+      const element: any = document.getElementsByName("priority")[pos]
       const priority = parseInt(element.options[element.selectedIndex].value)
 
       await patchTodo(this.props.auth.getIdToken(), todo.todoId, {
@@ -198,7 +198,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
                 {todo.name}
               </Grid.Column>
               <Grid.Column width={5} verticalAlreign="middle">
-                <select id = "priority" value={this.state.todos[pos].priority} onChange={() => this.onPriorityChanged(pos)} >
+                <select name = "priority" value={this.state.todos[pos].priority} onChange={() => this.onPriorityChanged(pos)} >
                   <option value="0">Low</option>
                   <option value="1">Medium</option>
                   <option value="2">High</option>
