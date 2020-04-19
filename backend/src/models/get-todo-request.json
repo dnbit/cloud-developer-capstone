@@ -15,6 +15,9 @@
       "done": {
         "type": "boolean"
       },
+      "priority": {
+        "type": "number"
+      },
       "attachmentUrl": {
         "type": "string"
       }

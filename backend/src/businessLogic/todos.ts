@@ -1,5 +1,4 @@
 import * as uuid from 'uuid'
-import * as AWS from 'aws-sdk'
 
 import { TodoItem } from '../models/TodoItem'
 import { TodoAccess } from '../dataLayer/todosAccess'
@@ -8,8 +7,8 @@ import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 
 const todoAccess = new TodoAccess()
 
-export async function getAllTodos(userId: string): Promise<TodoItem[]> {
-    return todoAccess.getAllTodos(userId)
+export async function getTodos(userId: string, limit: number, nextKey: any) {
+    return todoAccess.getTodos(userId, limit, nextKey)
 }
 
 export async function createTodo(createTodoRequest: CreateTodoRequest, userId: string): Promise<TodoItem> {
@@ -20,6 +19,7 @@ export async function createTodo(createTodoRequest: CreateTodoRequest, userId: s
         userId: userId,
         createdAt: new Date().toISOString(),
         done: false,
+        priority: 1,
         ...createTodoRequest
     })
 }

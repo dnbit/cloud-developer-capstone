@@ -1,5 +1,4 @@
 import 'source-map-support/register'
-import * as AWS from 'aws-sdk'
 
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
 
@@ -11,17 +10,18 @@ import { createLogger } from '../../utils/logger'
 const logger = createLogger('auth')
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  logger.info(`updateTodo call received with event ${event}`)
-
   const todoId = event.pathParameters.todoId
   const updateTodoRequest: UpdateTodoRequest = JSON.parse(event.body)
+  const userId = getUserId(event)
 
-  const result = await updateTodo(todoId, updateTodoRequest, getUserId(event))
+  logger.info(`updateTodo call received for user ${userId} and todoId ${todoId} with ${JSON.stringify(updateTodoRequest)}`)
+  const result = await updateTodo(todoId, updateTodoRequest, userId)
 
   return {
     statusCode: 200,
     headers: {
-      'Access-Control-Allow-Origin': '*'
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true
     },
     body: JSON.stringify({
       result
