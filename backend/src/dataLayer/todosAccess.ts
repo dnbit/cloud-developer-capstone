@@ -18,20 +18,28 @@ export class TodoAccess {
       private readonly indexName = process.env.INDEX_NAME) {
     }
   
-    async getAllTodos(userId: string): Promise<TodoItem[]> {
+    async getTodos(userId: string, limit: number, nextKey: any) {
       logger.info('Getting all todos')
   
       const result = await this.docClient.query({
         TableName: this.todosTable,
         IndexName: this.indexName,
+        Limit: limit,
+        ExclusiveStartKey: nextKey,
+        // Exlude userId from response so it does not reach the client application
+        ProjectionExpression: "todoId, dueDate, priority, createdAt, #name, done, attachmentUrl",
         KeyConditionExpression: 'userId = :u',
         ExpressionAttributeValues: {
           ":u": userId
+        },
+        ExpressionAttributeNames:{
+          // Attribute name is a reserved keyword so it cannot be used
+          // This is required to change name to something different, such as #name
+          "#name": "name"
         }
       }).promise()
   
-      const items = result.Items
-      return items as TodoItem[]
+      return result
     }
   
     async createTodo(todoItem: TodoItem): Promise<TodoItem> {
